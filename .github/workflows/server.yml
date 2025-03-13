@@ -1,0 +1,42 @@
+name: Server Pipeline
+
+on:
+  push:
+    branches: 
+      - main
+    paths:
+      - 'server/**'
+
+jobs:
+
+  build:
+
+    defaults:
+      run:
+        working-directory: server
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Login Dockerhub 
+      env:
+        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - name: Build the Docker image
+      run: docker build -t lukaneek/pizzas-server:latest .
+    - name: Push to Dockerhub
+      run: docker push lukaneek/pizzas-server:latest
+
+  deploy:
+    needs: build
+    runs-on: server 
+  
+    steps:
+    - name: Pull docker image
+      run: sudo docker pull lukaneek/pizzas-server:latest
+    - name: Delete old docker container
+      run: sudo docker rm -f pizzas-server || true
+    - name: Run docker container
+      run: sudo docker run -d -p 3000:3000 --name pizzas-server lukaneek/pizzas-server
