@@ -1,12 +1,31 @@
-# React + Vite
+This full stack MERN project is a pizza shop that uses:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  bycrpt, cors, express, mongoose, bootstrap, axios, and react.
 
-Currently, two official plugins are available:
+  -------------------------------------------------------------------------
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+  The enire application is written in javascript.  The client uses react for the UI, bootstrap for styling, and axois for REST API calls.  
 
-## Expanding the ESLint configuration
+  The server uses express web framework that provides the REST API's and buisiness logic.  Mongoose provides the ORM(Object Relational Mapping) of my model objects to a mongoose DB. Bcrypt is used for password hashing and confirm password features.  
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+  ------------------------------------------------------------------------------------
+
+  Project details:
+
+  Register/login authentication/error validation.
+	
+  Protected routes that protect against non logged in users from accessing further into the site without logging in/registering.
+	
+  Password hashing and confirm password using bcrypt.
+	
+  Used react library to build out the UI.  
+	
+  All data retrieved from the user is validated before entering MongoDB.
+
+  -------------------------------------------------------------------------------
+
+  The project is made up of a 3 tier architecture:
+
+  React is a single page arcitecture it makes REST calls to the API's running on express. Express handles the buisiness logic which then uses MondoBD (the database).
+
+ 
