@@ -127,19 +127,6 @@ app.put("/account", async (req, res) => {
     }
 })
 
-app.post("/pizzas", async (req, res) => {
-    const { email } = req.body;
-    console.log(email);
-    try {
-        const user = await User.findOne({ email: email });
-        console.log("getyting pizzas: " + user);
-        res.json(user);
-    }
-    catch (err) {
-        console.log(err);
-    }
-})
-
 app.post("/delete", async (req, res) => {
     const { email } = req.body;
     try {
