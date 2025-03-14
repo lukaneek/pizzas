@@ -25,7 +25,7 @@ function PreviousOrders(props) {
     }, []);
 
     function orderAgainHandler(pizzaId) {
-        navigate("./order", { state: { pizzaId: pizzaId }});
+        navigate(`${import.meta.env.VITE_PATH}/order`, { state: { pizzaId: pizzaId }});
     }
 
     return (

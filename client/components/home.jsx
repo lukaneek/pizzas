@@ -34,13 +34,13 @@ function Home(props) {
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item active">
-                                <NavLink to="/home" class="nav-link">Home</NavLink>
+                                <NavLink to={`${import.meta.env.VITE_PATH}/home`} class="nav-link">Home</NavLink>
                             </li>
                             <li class="nav-item">
-                                <NavLink to="/order" class="nav-link">Orders</NavLink>
+                                <NavLink to={`${import.meta.env.VITE_PATH}/order`} class="nav-link">Orders</NavLink>
                             </li>
                             <li class="nav-item">
-                                <NavLink to="/account" class="nav-link">Account</NavLink>
+                                <NavLink to={`${import.meta.env.VITE_PATH}/account`} class="nav-link">Account</NavLink>
                             </li>
                             <li class="nav-item">
                                 <a onClick={logoutHanlder} class="nav-link">Log Out</a>
