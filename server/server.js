@@ -8,15 +8,14 @@ const bcrypt = require("bcrypt");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: "http://localhost:3000"
+    origin: ['http://localhost:8080', 'https://lukavujasin.xyz']
 }));
-
 
 app.listen(3000, function () {
     console.log('Listening on port 3000');
 });
 
-app.get("/", cors(), function (req, res) {
+app.get("/", function (req, res) {
     return res.send("Response from pizza server");
 });
 
