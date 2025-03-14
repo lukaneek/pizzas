@@ -25,7 +25,7 @@ function PreviousOrders(props) {
     }, []);
 
     function orderAgainHandler(pizzaId) {
-        navigate("/order", { state: { pizzaId: pizzaId }});
+        navigate("./order", { state: { pizzaId: pizzaId }});
     }
 
     return (

@@ -41,7 +41,7 @@ function Account(props) {
             })
                 .then((res) => {
                     saveEmail("");
-                    navigate("/");
+                    navigate("./");
                 })
                 .catch((err) => {
                     console.log(err);
@@ -56,7 +56,7 @@ function Account(props) {
         e.preventDefault();
 
         saveEmail("");
-        navigate("/");
+        navigate("./");
     }
 
     async function sumbit(e) {
@@ -74,10 +74,10 @@ function Account(props) {
                 .then(res => {
                     console.log(res.data);
                     if (res.data == "exists") {
-                        navigate("/home");
+                        navigate("./home");
                     }
                     else {
-                        navigate("/");
+                        navigate("./");
                     }
                 })
                 .catch(e => {

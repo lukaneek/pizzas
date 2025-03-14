@@ -92,7 +92,7 @@ function Order(props) {
         })
             .then(res => {
                 console.log(res);
-                navigate("/account")
+                navigate("./account")
             })
             .catch(err => {
                 console.log(err);
@@ -103,7 +103,7 @@ function Order(props) {
         e.preventDefault();
 
         saveEmail("");
-        navigate("/");
+        navigate("./");
     }
 
     const handleMethod = (e) => {

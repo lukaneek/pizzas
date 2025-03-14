@@ -7,20 +7,20 @@ function Home(props) {
     const navigate = useNavigate();
     const { email } = props;
 
-    
+
     const orderHandler = () => {
-        navigate("/order");
+        navigate("./order");
     }
 
     const previousOrderHandler = () => {
-        navigate("/previousorders");
+        navigate("./previousorders");
     }
 
     async function logoutHanlder(e) {
         e.preventDefault();
 
         saveEmail("");
-        navigate("/");
+        navigate("./");
     }
 
     return (
