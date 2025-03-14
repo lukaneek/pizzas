@@ -19,7 +19,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path={`${import.meta.env.VITE_PATH}/`} element={<Login saveEmail={saveEmail} />} />
-        <Route path={`${import.meta.env.VITE_PATH}/register`} element={<Register saveEmail={saveEmail} />} />
+        <Route path={`register`} element={<Register saveEmail={saveEmail} />} />
         <Route element={<ProtectedRoutes email={email} />}>
           <Route path={`${import.meta.env.VITE_PATH}/home`} element={<Home email={email}/>} />
           <Route path={`${import.meta.env.VITE_PATH}/order`} element={<Order email={email}/>} />
