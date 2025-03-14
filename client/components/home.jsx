@@ -22,6 +22,7 @@ function Home(props) {
         e.preventDefault();
 
         setEmail("", () => {
+            console.log("set email in callback funtion navigate to: ");
             navigate(`${import.meta.env.VITE_PATH}/sadds`);
         });
         //navigate(`${import.meta.env.VITE_PATH}/`);
