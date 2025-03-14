@@ -31,7 +31,7 @@ function Order(props) {
 
     useEffect(() => {
         if (pizzaWithIdObject) {
-            axios.get(`${import.meta.env.VITE_BASE_URL}/user`, {
+            axios.get(`${import.meta.env.VITE_BASE_SERVER_URL}/user`, {
                 params: {
                     email: email
                 }
@@ -82,7 +82,7 @@ function Order(props) {
     const submitHandler = (e) => {
         e.preventDefault();
         console.log("inside submit handler: " + email);
-        axios.post(`${import.meta.env.VITE_BASE_URL}/order`, {
+        axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/order`, {
             toppings,
             crust,
             size,

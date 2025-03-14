@@ -11,7 +11,7 @@ function PreviousOrders(props) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_BASE_URL}/user`, {
+        axios.get(`${import.meta.env.VITE_BASE_SERVER_URL}/user`, {
             params: {
                 email: email
             }

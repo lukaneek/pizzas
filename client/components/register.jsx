@@ -23,7 +23,7 @@ function Register(props) {
         }
 
         try {
-            await axios.post(`${import.meta.env.VITE_BASE_URL}/register`, {
+            await axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/register`, {
                 email, password, city, state, address
             })
                 .then(res => {
@@ -33,7 +33,7 @@ function Register(props) {
                     }
                     else if (res.data == "nonexist") {
                         saveEmail(email);
-                        navigate("/home");
+                        navigate("./home");
                     }
                 })
                 .catch(e => {

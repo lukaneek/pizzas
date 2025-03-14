@@ -16,13 +16,13 @@ function Login(props) {
         e.preventDefault();
 
         try {
-            await axios.post(`${import.meta.env.VITE_BASE_URL}/`, {
+            await axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/`, {
                 email, password
             })
                 .then(res => {
                     if (res.data == "exists") {
                         saveEmail(email);
-                        navigate("/home");
+                        navigate("./home");
                     }
                     else if (res.data == "nonexist") {
                         alert("incorrect information entered");

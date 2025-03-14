@@ -17,7 +17,7 @@ function Account(props) {
     const [pizzas, setPizzas] = useState([]);
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_BASE_URL}/user`, {
+        axios.get(`${import.meta.env.VITE_BASE_SERVER_URL}/user`, {
             params: {
                 email: email
             }
@@ -36,7 +36,7 @@ function Account(props) {
     async function deleteHandler(e) {
         e.preventDefault();
         try {
-            await axios.post(`${import.meta.env.VITE_BASE_URL}/delete`, {
+            await axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/delete`, {
                 email
             })
                 .then((res) => {
@@ -68,7 +68,7 @@ function Account(props) {
         }
 
         try {
-            await axios.put(`${import.meta.env.VITE_BASE_URL}/account`, {
+            await axios.put(`${import.meta.env.VITE_BASE_SERVER_URL}/account`, {
                 email, password, city, state, address
             })
                 .then(res => {
