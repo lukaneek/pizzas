@@ -22,7 +22,7 @@ function Home(props) {
         e.preventDefault();
 
         setEmail("", () => {
-            navigate(`${import.meta.env.VITE_PATH}/`);
+            navigate(`${import.meta.env.VITE_PATH}/sadds`);
         });
         //navigate(`${import.meta.env.VITE_PATH}/`);
     }
