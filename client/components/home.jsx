@@ -7,7 +7,7 @@ import { useEffect } from "react";
 function Home(props) {
     const navigate = useNavigate();
     const { email } = props;
-    const { setEmail } = props;
+    const { saveEmail } = props;
 
 
     const orderHandler = () => {
@@ -21,13 +21,9 @@ function Home(props) {
     async function logoutHandler(e) {
         e.preventDefault();
 
-        setEmail("", () => {
-            console.log("set email in callback funtion navigate to: ");
-            navigate(`${import.meta.env.VITE_PATH}/sadds`);
-        });
-        //navigate(`${import.meta.env.VITE_PATH}/`);
+        saveEmail("");
+        navigate(`${import.meta.env.VITE_PATH}/`);
     }
-    
 
     return (
         <div>

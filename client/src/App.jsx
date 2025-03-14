@@ -21,7 +21,7 @@ function App() {
         <Route path={`${import.meta.env.VITE_PATH}/`} element={<Login saveEmail={saveEmail} />} />
         <Route path={`${import.meta.env.VITE_PATH}/register`} element={<Register saveEmail={saveEmail} />} />
         <Route element={<ProtectedRoutes email={email} />}>
-          <Route path={`${import.meta.env.VITE_PATH}/home`} element={<Home email={email} setEmail={setEmail}/>} />
+          <Route path={`${import.meta.env.VITE_PATH}/home`} element={<Home email={email} saveEmail={saveEmail}/>} />
           <Route path={`${import.meta.env.VITE_PATH}/order`} element={<Order email={email} saveEmail={saveEmail}/>} />
           <Route path={`${import.meta.env.VITE_PATH}/previousorders`} element={<PreviousOrders email={email} saveEmail={saveEmail}/>} />
           <Route path={`${import.meta.env.VITE_PATH}/account`} element={<Account email={email} saveEmail={saveEmail}/>} />
