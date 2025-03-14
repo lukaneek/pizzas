@@ -1,0 +1,9 @@
+server {
+    listen 80;
+    server_name localhost;
+
+    location /exampleapis/ {
+        proxy_pass http://172.17.0.2:3000/;
+    }
+}
+// For an EC2 instance that hosts Apis, nginx has to be manually installed. Use this default config as a template when configuring nginx.  
