@@ -9,7 +9,7 @@ import ProtectedRoutes from "/utils/protectedRoutes";
 import PreviousOrders from "../components/previousOrders";
 
 function App() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState();
 
   const saveEmail = (email) => {
     setEmail(email);

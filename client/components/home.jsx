@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
 
 function Home(props) {
     const navigate = useNavigate();
@@ -17,11 +18,17 @@ function Home(props) {
         navigate(`${import.meta.env.VITE_PATH}/previousorders`);
     }
 
-    async function logoutHanlder(e) {
+    useEffect(() => {
+        if (email == "") {
+            navigate(`${import.meta.env.VITE_PATH}/`);
+        }
+    }, [email]);
+
+    async function logoutHandler(e) {
         e.preventDefault();
 
         saveEmail("");
-        navigate(`${import.meta.env.VITE_PATH}/`);
+        //navigate(`${import.meta.env.VITE_PATH}/`);
     }
 
     return (
@@ -44,7 +51,7 @@ function Home(props) {
                                 <NavLink to={`${import.meta.env.VITE_PATH}/account`} class="nav-link">Account</NavLink>
                             </li>
                             <li class="nav-item">
-                                <button onClick={logoutHanlder} class="nav-link">Log Out</button>
+                                <button onClick={logoutHandler} class="nav-link">Log Out</button>
                             </li>
                         </ul>
                     </div>
