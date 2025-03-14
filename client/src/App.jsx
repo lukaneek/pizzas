@@ -18,13 +18,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login saveEmail={saveEmail} />} />
-        <Route path="/register" element={<Register saveEmail={saveEmail} />} />
+        <Route path={`${import.meta.env.VITE_PATH}/`} element={<Login saveEmail={saveEmail} />} />
+        <Route path={`${import.meta.env.VITE_PATH}/register`} element={<Register saveEmail={saveEmail} />} />
         <Route element={<ProtectedRoutes email={email} />}>
-          <Route path="/home" element={<Home email={email}/>} />
-          <Route path="/order" element={<Order email={email}/>} />
-          <Route path="/previousorders" element={<PreviousOrders email={email}/>} />
-          <Route path="/account" element={<Account email={email}/>} />
+          <Route path={`${import.meta.env.VITE_PATH}/home`} element={<Home email={email}/>} />
+          <Route path={`${import.meta.env.VITE_PATH}/order`} element={<Order email={email}/>} />
+          <Route path={`${import.meta.env.VITE_PATH}/previousorders`} element={<PreviousOrders email={email}/>} />
+          <Route path={`${import.meta.env.VITE_PATH}/account`} element={<Account email={email}/>} />
         </Route>
       </Routes>
     </BrowserRouter>

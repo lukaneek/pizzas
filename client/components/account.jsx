@@ -17,12 +17,13 @@ function Account(props) {
     const [pizzas, setPizzas] = useState([]);
 
     useEffect(() => {
-        axios.post(`${import.meta.env.VITE_BASE_URL}/pizzas`, {
-            email,
+        axios.get(`${import.meta.env.VITE_BASE_URL}/user`, {
+            params: {
+                email: email
+            }
         })
             .then((res) => {
                 setPizzas(res.data.pizzas);
-                setNewEmail(res.data.email);
                 setCity(res.data.city);
                 setState(res.data.state);
                 setAddress(res.data.address);
