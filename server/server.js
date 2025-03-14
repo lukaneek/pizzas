@@ -5,6 +5,7 @@ require("./config/mongoose.config.js");
 const User = require("./models/user.model.js");
 const bcrypt = require("bcrypt");
 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
