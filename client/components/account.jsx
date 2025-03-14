@@ -7,7 +7,6 @@ import { NavLink } from "react-router-dom";
 
 function Account(props) {
     const { email } = props;
-    const { saveEmail } = props;
     const navigate = useNavigate();
 
     const [password, setPassword] = useState("");
@@ -18,12 +17,10 @@ function Account(props) {
     const [pizzas, setPizzas] = useState([]);
 
     useEffect(() => {
-        console.log("in pizzas useEffect");
         axios.post(`${import.meta.env.VITE_BASE_URL}/pizzas`, {
             email,
         })
             .then((res) => {
-                console.log(res.data.pizzas);
                 setPizzas(res.data.pizzas);
                 setNewEmail(res.data.email);
                 setCity(res.data.city);
@@ -170,6 +167,7 @@ function Account(props) {
                                 <li>{pizza.size}</li>
                                 <li>{pizza.method}</li>
                                 <li>{pizza.quantity}</li>
+                                <li>{pizza.orderDate}</li>
                             </ul>
                         ))
                     }

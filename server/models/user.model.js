@@ -44,6 +44,11 @@ const UserSchema = new mongoose.Schema({
         method: {
             type: String,
             required: [true, "must have delivery method"]
+        },
+        orderDate: {
+            type: Date,
+            required: true,
+            default: Date.now
         }
     }],
 

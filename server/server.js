@@ -19,6 +19,18 @@ app.get("/", cors(), function (req, res) {
     return res.send("This text is the response from the Express server");
 });
 
+app.get("/user", async(req, res) => {
+    const { email } = req.query;
+
+    try {
+        const user = await User.findOne({ email:email });
+        res.json(user);
+    }
+    catch (e) {
+        res.json("nonexist");
+    }
+})
+
 app.post("/", async (req, res) => {
     const { email, password } = req.body;
     console.log(req.body);

@@ -4,17 +4,80 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
 
 function Order(props) {
     const { email } = props;
-    const { saveEmail } = props;
     const navigate = useNavigate();
+    const location = useLocation();
+    const pizzaWithIdObject = location.state;
 
     const [toppings, setToppings] = useState([]);
     const [crust, setCrust] = useState("thin");
     const [size, setSize] = useState("small");
     const [method, setMethod] = useState("delivery");
     const [quantity, setQuantity] = useState(1);
+    const [pizza, setPizza] = useState({});
+    const [onions, setOnions] = useState(false);
+    const [pepperoni, setPepperoni] = useState(false);
+    const [cheese, setCheese] = useState(false);
+    const [sausage, setSausage] = useState(false);
+    const [olives, setOlives] = useState(false);
+    const [mushrooms, setMushrooms] = useState(false);
+    const [pineapple, setPineapple] = useState(false);
+    const [bacon, setBacon] = useState(false);
+    const [anchovies, setAnchovies] = useState(false);
+    const [peppers, setPeppers] = useState(false);
+
+    useEffect(() => {
+        if (pizzaWithIdObject) {
+            axios.get(`${import.meta.env.VITE_BASE_URL}/user`, {
+                params: {
+                    email: email
+                }
+            })
+                .then((res) => {
+                    console.log("this pizza id: " + pizzaWithIdObject.pizzaId);
+                    console.log(res.data.pizzas);
+                    const foundPizza = res.data.pizzas.find((pizza) => { return pizza._id == pizzaWithIdObject.pizzaId; });
+                    console.log(foundPizza);
+                    if (foundPizza) {
+                        setPizza(foundPizza);
+                        setToppings(foundPizza.toppings);
+                        foundPizza.toppings.forEach(topping => {
+                            if (topping == "pepperoni") {
+                                setPepperoni(true);
+                            } else if (topping == "cheese") {
+                                setCheese(true);
+                            } else if (topping == "sausage") {
+                                setSausage(true);
+                            } else if (topping == "olives") {
+                                setOlives(true);
+                            } else if (topping == "peppers") {
+                                setPeppers(true);
+                            } else if (topping == "onions") {
+                                setOnions(true);
+                            } else if (topping == "mushrooms") {
+                                setMushrooms(true);
+                            } else if (topping == "pineapple") {
+                                setPineapple(true);
+                            } else if (topping == "bacon") {
+                                setBacon(true);
+                            } else if (topping == "anchovies") {
+                                setAnchovies(true);
+                            }
+                        })
+                        setCrust(foundPizza.crust);
+                        setMethod(foundPizza.method);
+                        setQuantity(foundPizza.quantity);
+                        setSize(foundPizza.size);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }, []);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -61,10 +124,32 @@ function Order(props) {
 
     const handleToppings = (e) => {
         const { value, checked } = e.target;
-
+        console.log(value, checked);
         if (checked) {
             setToppings(res => [...res, value]);
         }
+        if (value == "pepperoni") {
+            setPepperoni(checked);
+        } else if (value == "cheese") {
+            setCheese(checked);
+        } else if (value == "sausage") {
+            setSausage(checked);
+        } else if (value == "olives") {
+            setOlives(checked);
+        } else if (value == "peppers") {
+            setPeppers(checked);
+        } else if (value == "onions") {
+            setOnions(checked);
+        } else if (value == "mushrooms") {
+            setMushrooms(checked);
+        } else if (value == "pineapple") {
+            setPineapple(checked);
+        } else if (value == "bacon") {
+            setBacon(checked);
+        } else if (value == "anchovies") {
+            setAnchovies(checked);
+        }
+
     }
 
     return (
@@ -139,31 +224,31 @@ function Order(props) {
                     <h3 style={{ paddingTop: 50 }} class="d-flex justify-content-center">Toppings</h3>
                     <div style={{ paddingTop: 50 }} class="form-check d-flex justify-content-center">
                         <div style={{ paddingRight: 50 }}>
-                            <input onChange={handleToppings} class="form-check-input" type="checkbox" value="pepperoni" id="defaultCheck1" />
+                            <input onChange={handleToppings} class="form-check-input" type="checkbox" checked={pepperoni} value="pepperoni" id="defaultCheck1" />
                             <label class="form-check-label" for="defaultCheck1">
                                 Pepperoni
                             </label>
                         </div>
                         <div style={{ paddingRight: 50 }}>
-                            <input onChange={handleToppings} class="form-check-input" type="checkbox" value="cheese" id="defaultCheck1" />
+                            <input onChange={handleToppings} class="form-check-input" type="checkbox" checked={cheese} value="cheese" id="defaultCheck1" />
                             <label class="form-check-label" for="defaultCheck1">
                                 Cheese
                             </label>
                         </div>
                         <div style={{ paddingRight: 50 }}>
-                            <input onChange={handleToppings} class="form-check-input" type="checkbox" value="sausage" id="defaultCheck1" />
+                            <input onChange={handleToppings} class="form-check-input" type="checkbox" checked={sausage} value="sausage" id="defaultCheck1" />
                             <label class="form-check-label" for="defaultCheck1">
                                 Sausage
                             </label>
                         </div>
                         <div style={{ paddingRight: 50 }}>
-                            <input onChange={handleToppings} class="form-check-input" type="checkbox" value="olives" id="defaultCheck1" />
+                            <input onChange={handleToppings} class="form-check-input" type="checkbox" checked={olives} value="olives" id="defaultCheck1" />
                             <label class="form-check-label" for="defaultCheck1">
                                 Olives
                             </label>
                         </div>
                         <div style={{ paddingRight: 50 }}>
-                            <input onChange={handleToppings} class="form-check-input" type="checkbox" value="peppers" id="defaultCheck1" />
+                            <input onChange={handleToppings} class="form-check-input" type="checkbox" checked={peppers} value="peppers" id="defaultCheck1" />
                             <label class="form-check-label" for="defaultCheck1">
                                 Peppers
                             </label>
@@ -171,31 +256,31 @@ function Order(props) {
                     </div>
                     <div class="form-check d-flex justify-content-center">
                         <div style={{ paddingRight: 50 }}>
-                            <input onChange={handleToppings} class="form-check-input" type="checkbox" value="onions" id="defaultCheck1" />
+                            <input onChange={handleToppings} class="form-check-input" type="checkbox" checked={onions} value="onions" id="defaultCheck1" />
                             <label class="form-check-label" for="defaultCheck1">
                                 Onions
                             </label>
                         </div>
                         <div style={{ paddingRight: 50 }}>
-                            <input onChange={handleToppings} class="form-check-input" type="checkbox" value="mushrooms" id="defaultCheck1" />
+                            <input onChange={handleToppings} class="form-check-input" type="checkbox" checked={mushrooms} value="mushrooms" id="defaultCheck1" />
                             <label class="form-check-label" for="defaultCheck1">
                                 Mushrooms
                             </label>
                         </div>
                         <div style={{ paddingRight: 50 }}>
-                            <input onChange={handleToppings} class="form-check-input" type="checkbox" value="pineapple" id="defaultCheck1" />
+                            <input onChange={handleToppings} class="form-check-input" type="checkbox" checked={pineapple} value="pineapple" id="defaultCheck1" />
                             <label class="form-check-label" for="defaultCheck1">
                                 Pineapple
                             </label>
                         </div>
                         <div style={{ paddingRight: 50 }}>
-                            <input onChange={handleToppings} class="form-check-input" type="checkbox" value="bacon" id="defaultCheck1" />
+                            <input onChange={handleToppings} class="form-check-input" type="checkbox" checked={bacon} value="bacon" id="defaultCheck1" />
                             <label class="form-check-label" for="defaultCheck1">
                                 Bacon
                             </label>
                         </div>
                         <div style={{ paddingRight: 50 }}>
-                            <input onChange={handleToppings} class="form-check-input" type="checkbox" value="anchovies" id="defaultCheck1" />
+                            <input onChange={handleToppings} class="form-check-input" type="checkbox" checked={anchovies} value="anchovies" id="defaultCheck1" />
                             <label class="form-check-label" for="defaultCheck1">
                                 Anchovies
                             </label>
