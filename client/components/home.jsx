@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 function Home(props) {
     const navigate = useNavigate();
     const { email } = props;
+    const { saveEmail } = props;
 
 
     const orderHandler = () => {

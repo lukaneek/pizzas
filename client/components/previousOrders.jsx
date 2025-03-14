@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function PreviousOrders(props) {
     const { email } = props;
+    const { saveEmail } = props;
 
     const [ pizzas, setPizzas ] = useState([]);
 

@@ -8,6 +8,7 @@ import { useEffect } from "react";
 
 function Order(props) {
     const { email } = props;
+    const { saveEmail } = props;
     const navigate = useNavigate();
     const location = useLocation();
     const pizzaWithIdObject = location.state;

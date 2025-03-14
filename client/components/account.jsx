@@ -109,7 +109,7 @@ function Account(props) {
                             <NavLink to={`${import.meta.env.VITE_PATH}/account`} class="nav-link">Account</NavLink>
                         </li>
                         <li class="nav-item">
-                            <a onClick={logoutHanlder} class="nav-link">Log Out</a>
+                            <a onClick={logoutHanlder}  class="nav-link">Log Out</a>
                         </li>
                     </ul>
                 </div>
