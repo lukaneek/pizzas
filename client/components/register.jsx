@@ -33,7 +33,7 @@ function Register(props) {
                     }
                     else if (res.data == "nonexist") {
                         saveEmail(email);
-                        navigate("./home");
+                        navigate(`${import.meta.env.VITE_PATH}/home`);
                     }
                 })
                 .catch(e => {

@@ -9,18 +9,18 @@ function Home(props) {
 
 
     const orderHandler = () => {
-        navigate("./order");
+        navigate(`${import.meta.env.VITE_PATH}/order`);
     }
 
     const previousOrderHandler = () => {
-        navigate("./previousorders");
+        navigate(`${import.meta.env.VITE_PATH}/previousorders`);
     }
 
     async function logoutHanlder(e) {
         e.preventDefault();
 
         saveEmail("");
-        navigate("./");
+        navigate(`${import.meta.env.VITE_PATH}/`);
     }
 
     return (

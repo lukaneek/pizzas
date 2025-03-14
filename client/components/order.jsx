@@ -92,7 +92,7 @@ function Order(props) {
         })
             .then(res => {
                 console.log(res);
-                navigate("./account")
+                navigate(`${import.meta.env.VITE_PATH}/account`)
             })
             .catch(err => {
                 console.log(err);
@@ -103,7 +103,7 @@ function Order(props) {
         e.preventDefault();
 
         saveEmail("");
-        navigate("./");
+        navigate(`${import.meta.env.VITE_PATH}/`);
     }
 
     const handleMethod = (e) => {

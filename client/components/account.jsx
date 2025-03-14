@@ -41,7 +41,7 @@ function Account(props) {
             })
                 .then((res) => {
                     saveEmail("");
-                    navigate("./");
+                    navigate(`${import.meta.env.VITE_PATH}/`);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -56,7 +56,7 @@ function Account(props) {
         e.preventDefault();
 
         saveEmail("");
-        navigate("./");
+        navigate(`${import.meta.env.VITE_PATH}/`);
     }
 
     async function sumbit(e) {
@@ -74,10 +74,10 @@ function Account(props) {
                 .then(res => {
                     console.log(res.data);
                     if (res.data == "exists") {
-                        navigate("./home");
+                        navigate(`${import.meta.env.VITE_PATH}/home`);
                     }
                     else {
-                        navigate("./");
+                        navigate(`${import.meta.env.VITE_PATH}/`);
                     }
                 })
                 .catch(e => {
