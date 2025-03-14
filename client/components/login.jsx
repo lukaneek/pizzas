@@ -22,7 +22,7 @@ function Login(props) {
                 .then(res => {
                     if (res.data == "exists") {
                         saveEmail(email);
-                        navigate("./home");
+                        navigate(`${import.meta.env.VITE_PATH}/home`);
                     }
                     else if (res.data == "nonexist") {
                         alert("incorrect information entered");
