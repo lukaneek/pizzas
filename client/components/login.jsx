@@ -82,7 +82,7 @@ function Login(props) {
                             <a href="#!">Forgot password?</a>
                         </div>
                         <div class="text-center">
-                            <p>Not a member? <a href="/register">Register</a></p>
+                            <p>Not a member? <a href="./register">Register</a></p>
                         </div>
                     </form>
                 </div>
