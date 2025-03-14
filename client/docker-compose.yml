@@ -2,7 +2,7 @@ version: "3.9"
 services:
   clientserver-client:
     build: .
-    container_name: clientserver-client
+    container_name: pizzas-client
     environment:
       NODE_ENV: production
     ports:
