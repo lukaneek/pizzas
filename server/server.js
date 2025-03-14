@@ -11,12 +11,12 @@ app.use(cors({
     origin: "http://localhost:3000"
 }));
 
-app.listen(8000, function () {
-    console.log('Listening on port 8000');
+app.listen(3000, function () {
+    console.log('Listening on port 3000');
 });
 
 app.get("/", cors(), function (req, res) {
-    return res.send("This text is the response from the Express server");
+    return res.send("Response from pizza server");
 });
 
 app.get("/user", async(req, res) => {
@@ -30,7 +30,6 @@ app.get("/user", async(req, res) => {
         res.json("nonexist");
     }
 })
-
 
 app.post("/", async (req, res) => {
     const { email, password } = req.body;
