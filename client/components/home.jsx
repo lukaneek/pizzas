@@ -27,6 +27,7 @@ function Home(props) {
         });
         //navigate(`${import.meta.env.VITE_PATH}/`);
     }
+    
 
     return (
         <div>
