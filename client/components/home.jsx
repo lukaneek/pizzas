@@ -18,12 +18,6 @@ function Home(props) {
         navigate(`${import.meta.env.VITE_PATH}/previousorders`);
     }
 
-    useEffect(() => {
-        if (email == "") {
-            navigate(`${import.meta.env.VITE_PATH}/`);
-        }
-    }, [email]);
-
     async function logoutHandler(e) {
         e.preventDefault();
 
