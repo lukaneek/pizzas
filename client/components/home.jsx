@@ -7,6 +7,7 @@ function Home(props) {
     const navigate = useNavigate();
     const { email } = props;
 
+    
     const orderHandler = () => {
         navigate("/order");
     }
