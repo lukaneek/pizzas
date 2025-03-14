@@ -40,6 +40,7 @@ app.post("/", async (req, res) => {
         if (!check) {
             res.json("nonexist");
         }
+        
         const isMatch = await check.comparePassword(password);
         if (!isMatch) {
             res.json("nonexist");
