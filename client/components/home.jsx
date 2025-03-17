@@ -7,7 +7,6 @@ import { useEffect } from "react";
 function Home(props) {
     const navigate = useNavigate();
     const { email } = props;
-    const { saveEmail } = props;
 
 
     const orderHandler = () => {
@@ -18,10 +17,9 @@ function Home(props) {
         navigate(`${import.meta.env.VITE_PATH}/previousorders`);
     }
 
-    async function logoutHandler(e) {
+    function logoutHandler(e) {
         e.preventDefault();
 
-        saveEmail("");
         navigate(`${import.meta.env.VITE_PATH}/`);
     }
 

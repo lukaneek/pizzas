@@ -8,7 +8,6 @@ import { useEffect } from "react";
 
 function Order(props) {
     const { email } = props;
-    const { saveEmail } = props;
     const navigate = useNavigate();
     const location = useLocation();
     const pizzaWithIdObject = location.state;
@@ -100,10 +99,9 @@ function Order(props) {
             })
     }
 
-    async function logoutHanlder(e) {
+    function logoutHanlder(e) {
         e.preventDefault();
 
-        saveEmail("");
         navigate(`${import.meta.env.VITE_PATH}/`);
     }
 

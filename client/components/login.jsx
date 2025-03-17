@@ -12,30 +12,29 @@ function Login(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    async function sumbit(e) {
+    useEffect(() => {
+        saveEmail("");
+    }, [])
+
+    function sumbit(e) {
         e.preventDefault();
 
-        try {
-            await axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/`, {
-                email, password
-            })
-                .then(res => {
-                    if (res.data == "exists") {
-                        saveEmail(email);
-                        navigate(`${import.meta.env.VITE_PATH}/home`);
-                    }
-                    else if (res.data == "nonexist") {
-                        alert("incorrect information entered");
-                    }
-                })
-                .catch(e => {
-                    alert("wrong information entered");
-                    console.log(e);
-                })
-        }
-        catch (e) {
+        axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/`, {
+            email, password
+        })
+        .then(res => {
+            if (res.data == "exists") {
+                saveEmail(email);
+                navigate(`${import.meta.env.VITE_PATH}/home`);
+            }
+            else if (res.data == "nonexist") {
+                alert("incorrect information entered");
+            }
+        })
+        .catch(e => {
+            alert("wrong information entered");
             console.log(e);
-        }
+        })
     }
 
 

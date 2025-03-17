@@ -33,15 +33,15 @@ app.get("/user", async(req, res) => {
 
 app.post("/", async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body);
+    
     try {
-        const check = await User.findOne({ email: email })
-        console.log("user finding: " + check)
-        if (!check) {
+        const user = await User.findOne({ email: email });
+        
+        if (!user) {
             res.json("nonexist");
         }
 
-        const isMatch = await check.comparePassword(password);
+        const isMatch = await user.comparePassword(password);
         if (!isMatch) {
             res.json("nonexist");
         }
@@ -51,31 +51,32 @@ app.post("/", async (req, res) => {
     }
     catch (e) {
         console.log(e);
-        res.json("nonexist")
+        res.json("nonexist");
     }
 })
 
 
 
 app.post("/register", async (req, res) => {
-    const { email, password, city, state, address } = req.body;
-    console.log("data");
+    const { email, password, city, state, address, zipCode } = req.body;
+    
     const data = {
         email: email,
         password: password,
         city: city,
         state: state,
-        address: address
+        address: address,
+        zipCode: zipCode
     }
     try {
-        const check = await User.findOne({ email: email })
-        console.log("user findin 1: " + check)
-        if (check) {
-            res.json("exists")
+        const user = await User.findOne({ email: email });
+        
+        if (user) {
+            res.json("exists");
         }
         else {
-            await User.create(data)
-            res.json("nonexist")
+            await User.create(data);
+            res.json("nonexist");
         }
     }
     catch (e) {
@@ -84,13 +85,13 @@ app.post("/register", async (req, res) => {
 })
 
 app.post("/order", async (req, res) => {
-    console.log(req.body)
     const { email, toppings, crust, size, method, quantity } = req.body;
+
     try {
-        const user = await User.findOne({ email: email })
-        console.log({ toppings, crust, size, method, quantity });
+        const user = await User.findOne({ email: email });
+        
         user.pizzas.push({ toppings, crust, size, method, quantity });
-        console.log("adding pizzas to user: " + user);
+        
         const update = await User.findByIdAndUpdate({ _id: user._id }, { pizzas: [...user.pizzas] });
         res.json("saved pizza");
     }
@@ -101,11 +102,11 @@ app.post("/order", async (req, res) => {
 })
 
 app.put("/account", async (req, res) => {
-    const { email, password, city, state, address } = req.body;
-    console.log(req.body);
+    const { email, password, city, state, address, zipCode } = req.body;
+    
     try {
         const user = await User.findOne({ email: email });
-        console.log("user finding: " + user);
+        
         if (!user) {
             res.json("nonexist");
         }
@@ -118,13 +119,14 @@ app.put("/account", async (req, res) => {
                     password: password ? await hashPassword(password) : user.password,
                     city: city,
                     state: state,
-                    address: address
+                    address: address,
+                    zipCode: zipCode
                 });
             res.json("exists");
         }
     }
     catch (e) {
-        res.json("nonexist")
+        res.json("nonexist");
     }
 })
 app.post("/delete", async (req, res) => {
@@ -141,7 +143,6 @@ app.post("/delete", async (req, res) => {
 
 async function hashPassword(password) {
     try {
-        console.log("password before hashing: " + password);
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
         return hash;

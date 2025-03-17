@@ -14,6 +14,7 @@ function Account(props) {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [address, setAddress] = useState("");
+    const [zipCode, setZipCode] = useState("");
     const [pizzas, setPizzas] = useState([]);
 
     useEffect(() => {
@@ -27,39 +28,34 @@ function Account(props) {
                 setCity(res.data.city);
                 setState(res.data.state);
                 setAddress(res.data.address);
+                setZipCode(res.data.zipCode);
             })
             .catch((err) => {
                 console.log(err);
             })
     }, []);
 
-    async function deleteHandler(e) {
+    function deleteHandler(e) {
         e.preventDefault();
-        try {
-            await axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/delete`, {
-                email
+        axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/delete`, {
+            email
+        })
+            .then((res) => {
+                saveEmail("");
+                navigate(`${import.meta.env.VITE_PATH}/`);
             })
-                .then((res) => {
-                    saveEmail("");
-                    navigate(`${import.meta.env.VITE_PATH}/`);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
-        catch (err) {
-            console.log(err);
-        }
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
-    async function logoutHanlder(e) {
+    function logoutHanlder(e) {
         e.preventDefault();
 
-        saveEmail("");
         navigate(`${import.meta.env.VITE_PATH}/`);
     }
 
-    async function sumbit(e) {
+    function sumbit(e) {
         e.preventDefault();
 
         if (password != confirmPassword) {
@@ -67,27 +63,25 @@ function Account(props) {
             return;
         }
 
-        try {
-            await axios.put(`${import.meta.env.VITE_BASE_SERVER_URL}/account`, {
-                email, password, city, state, address
-            })
-                .then(res => {
-                    console.log(res.data);
-                    if (res.data == "exists") {
-                        navigate(`${import.meta.env.VITE_PATH}/home`);
-                    }
-                    else {
-                        navigate(`${import.meta.env.VITE_PATH}/`);
-                    }
-                })
-                .catch(e => {
-                    alert("something went wrong");
-                    console.log(e);
-                })
-        }
-        catch (e) {
+
+        axios.put(`${import.meta.env.VITE_BASE_SERVER_URL}/account`, {
+            email, password, city, state, address, zipCode
+        })
+        .then(res => {
+            console.log(res.data);
+            if (res.data == "exists") {
+                navigate(`${import.meta.env.VITE_PATH}/home`);
+            }
+            else {
+                navigate(`${import.meta.env.VITE_PATH}/`);
+            }
+        })
+        .catch(e => {
+            alert("something went wrong");
             console.log(e);
-        }
+        })
+
+
     }
 
     return (
@@ -109,7 +103,7 @@ function Account(props) {
                             <NavLink to={`${import.meta.env.VITE_PATH}/account`} class="nav-link">Account</NavLink>
                         </li>
                         <li class="nav-item">
-                        <button onClick={logoutHanlder} class="nav-link">Log Out</button>
+                            <button onClick={logoutHanlder} class="nav-link">Log Out</button>
                         </li>
                     </ul>
                 </div>
@@ -130,6 +124,11 @@ function Account(props) {
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" value={address} id="form2Example2" onChange={(e) => { setAddress(e.target.value) }} class="form-control" />
+                            <label class="form-label" for="form2Example2">Address</label>
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline mb-4">
                             <input type="text" value={city} id="form2Example2" onChange={(e) => { setCity(e.target.value) }} class="form-control" />
                             <label class="form-label" for="form2Example2">City</label>
                         </div>
@@ -140,8 +139,8 @@ function Account(props) {
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
-                            <input type="text" value={address} id="form2Example2" onChange={(e) => { setAddress(e.target.value) }} class="form-control" />
-                            <label class="form-label" for="form2Example2">Address</label>
+                            <input type="text" value={zipCode} id="form2Example2" onChange={(e) => { setZipCode(e.target.value) }} class="form-control" />
+                            <label class="form-label" for="form2Example2">Zip Code</label>
                         </div>
                         <div class=" d-flex justify-content-center align-items-center">
                             <div>

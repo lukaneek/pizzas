@@ -9,12 +9,13 @@ function Register(props) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [address, setAddress] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [zipCode, setZipCode] = useState("");
 
-    async function sumbit(e) {
+    function sumbit(e) {
         e.preventDefault();
 
         if (password != confirmPassword) {
@@ -22,28 +23,23 @@ function Register(props) {
             return;
         }
 
-        try {
-            await axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/register`, {
-                email, password, city, state, address
-            })
-                .then(res => {
-                    console.log(res.data);
-                    if (res.data == "exists") {
-                        alert("account already exists with this email");
-                    }
-                    else if (res.data == "nonexist") {
-                        saveEmail(email);
-                        navigate(`${import.meta.env.VITE_PATH}/home`);
-                    }
-                })
-                .catch(e => {
-                    alert("something went wrong");
-                    console.log(e);
-                })
-        }
-        catch (e) {
+        axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/register`, {
+            email, password, city, state, address, zipCode
+        })
+        .then(res => {
+            console.log(res.data);
+            if (res.data == "exists") {
+                alert("account already exists with this email");
+            }
+            else if (res.data == "nonexist") {
+                saveEmail(email);
+                navigate(`${import.meta.env.VITE_PATH}/home`);
+            }
+        })
+        .catch(e => {
+            alert("something went wrong");
             console.log(e);
-        }
+        }) 
     }
 
     return (
@@ -74,6 +70,11 @@ function Register(props) {
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" id="form2Example2" onChange={(e) => { setAddress(e.target.value) }} class="form-control" />
+                            <label class="form-label" for="form2Example2">Address</label>
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline mb-4">
                             <input type="text" id="form2Example2" onChange={(e) => { setCity(e.target.value) }} class="form-control" />
                             <label class="form-label" for="form2Example2">City</label>
                         </div>
@@ -84,8 +85,8 @@ function Register(props) {
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
-                            <input type="text" id="form2Example2" onChange={(e) => { setAddress(e.target.value) }} class="form-control" />
-                            <label class="form-label" for="form2Example2">Address</label>
+                            <input type="text" id="form2Example2" onChange={(e) => { setZipCode(e.target.value) }} class="form-control" />
+                            <label class="form-label" for="form2Example2">Zip Code</label>
                         </div>
 
                         <div class=" d-flex justify-content-center align-items-center">

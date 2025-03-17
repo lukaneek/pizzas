@@ -19,6 +19,10 @@ const RegisterSchema = new mongoose.Schema({
     address: {
         type: String,
         required: [true, "must enter an address"]
+    },
+    zipCode: {
+        type: String,
+        required: [true, "must enter a zipcode"]
     }
 }, { timestamps: true })
 
