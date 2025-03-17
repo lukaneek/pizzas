@@ -36,10 +36,7 @@ function Order(props) {
                 }
             })
                 .then((res) => {
-                    console.log("this pizza id: " + pizzaWithIdObject.pizzaId);
-                    console.log(res.data.pizzas);
                     const foundPizza = res.data.pizzas.find((pizza) => { return pizza._id == pizzaWithIdObject.pizzaId; });
-                    console.log(foundPizza);
                     if (foundPizza) {
                         setPizza(foundPizza);
                         setToppings(foundPizza.toppings);
@@ -80,7 +77,6 @@ function Order(props) {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log("inside submit handler: " + email);
         axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/order`, {
             toppings,
             crust,
@@ -91,11 +87,13 @@ function Order(props) {
         })
             .then(res => {
                 console.log(res);
+                alert(res.data);
                 navigate(`${import.meta.env.VITE_PATH}/account`)
             })
             .catch(err => {
-                console.log(err);
+                alert("Something went wrong registering user.  Please try again later.");
             })
+        console.log(err);
     }
 
     const handleMethod = (e) => {

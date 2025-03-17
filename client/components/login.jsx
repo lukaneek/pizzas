@@ -26,16 +26,17 @@ function Login(props) {
             email, password
         })
             .then(res => {
-                if (res.data == "exists") {
-                    saveEmail(email);
-                    navigate(`${import.meta.env.VITE_PATH}/home`);
-                }
-                else if (res.data == "nonexist") {
-                    alert("incorrect information entered");
-                }
+                console.log(res);
+                saveEmail(email);
+                navigate(`${import.meta.env.VITE_PATH}/home`);
             })
             .catch(e => {
-                alert("wrong information entered");
+                if (e.response && e.response.status == 404) {
+                    alert(e.response.data);
+                }
+                else {
+                    alert("Something went wrong logging in a user.  Please try again later.");
+                }
                 console.log(e);
             })
     }

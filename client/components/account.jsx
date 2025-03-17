@@ -38,15 +38,20 @@ function Account(props) {
 
     function deleteHandler(e) {
         e.preventDefault();
-        axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/delete`, {
-            email
-        })
-            .then((res) => {
-                navigate(`${import.meta.env.VITE_PATH}/`);
+        if (confirm("Are you sure you want to delete your account?")) {
+            axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/delete`, {
+                email
             })
-            .catch((err) => {
-                console.log(err);
-            })
+                .then((res) => {
+                    console.log(res);
+                    alert(res.data);
+                    navigate(`${import.meta.env.VITE_PATH}/`);
+                })
+                .catch((e) => {
+                    alert("Something went wrong deleting your account.  Please try again later.");
+                    console.log(e);
+                })
+        }
     }
 
     function sumbit(e) {
@@ -62,27 +67,29 @@ function Account(props) {
             email, password, city, state, address, zipCode
         })
             .then(res => {
-                console.log(res.data);
-                if (res.data == "exists") {
-                    navigate(`${import.meta.env.VITE_PATH}/home`);
-                }
-                else {
-                    navigate(`${import.meta.env.VITE_PATH}/`);
-                }
+                console.log(res);
+                alert("Successfully updated the account!");
+                navigate(`${import.meta.env.VITE_PATH}/home`);
             })
             .catch(e => {
-                alert("something went wrong");
+                if (e.response && e.response.status == 422) {
+                    const messages = e.response.data.map((error, index) => {
+                        return error.message + "\n";
+                    })
+                    alert(messages);
+                }
+                else {
+                    alert("Something went wrong updating your account.  Please try again later.");
+                }
                 console.log(e);
             })
-
-
     }
 
     return (
         <div>
             <div style={{ padding: 20 }}>
                 <Navbar email={email} />
-                
+
                 <div className="login template d-flex justify-content-center align-items-center 100-w 100-vh bg primary">
                     <div style={{ paddingTop: 50 }}>
                         <h1>Update Account Info</h1>
@@ -99,22 +106,22 @@ function Account(props) {
 
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="text" value={address} id="form2Example2" onChange={(e) => { setAddress(e.target.value) }} class="form-control" />
-                                <label class="form-label" for="form2Example2">Address</label>
+                                <label class="form-label" for="form2Example2">Address<span style={{ color: "red" }}> *</span></label>
                             </div>
 
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="text" value={city} id="form2Example2" onChange={(e) => { setCity(e.target.value) }} class="form-control" />
-                                <label class="form-label" for="form2Example2">City</label>
+                                <label class="form-label" for="form2Example2">City<span style={{ color: "red" }}> *</span></label>
                             </div>
 
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="text" value={state} id="form2Example2" onChange={(e) => { setState(e.target.value) }} class="form-control" />
-                                <label class="form-label" for="form2Example2">State</label>
+                                <label class="form-label" for="form2Example2">State<span style={{ color: "red" }}> *</span></label>
                             </div>
 
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="text" value={zipCode} id="form2Example2" onChange={(e) => { setZipCode(e.target.value) }} class="form-control" />
-                                <label class="form-label" for="form2Example2">Zip Code</label>
+                                <label class="form-label" for="form2Example2">Zip Code<span style={{ color: "red" }}> *</span></label>
                             </div>
                             <div class=" d-flex justify-content-center align-items-center">
                                 <div>
@@ -129,7 +136,7 @@ function Account(props) {
                         </form>
                     </div>
                 </div>
-                <PreviousOrdersTable email={email} addOrderButton={false}/>
+                <PreviousOrdersTable email={email} addOrderButton={false} />
             </div>
         </div>
     )

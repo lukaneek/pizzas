@@ -19,11 +19,11 @@ app.get("/", function (req, res) {
     return res.send("Response from pizza server");
 });
 
-app.get("/user", async(req, res) => {
+app.get("/user", async (req, res) => {
     const { email } = req.query;
 
     try {
-        const user = await User.findOne({ email:email });
+        const user = await User.findOne({ email: email });
         res.json(user);
     }
     catch (e) {
@@ -33,25 +33,23 @@ app.get("/user", async(req, res) => {
 
 app.post("/", async (req, res) => {
     const { email, password } = req.body;
-    
+
     try {
         const user = await User.findOne({ email: email });
-        
         if (!user) {
-            return res.json("nonexist");
+            return res.status(404).json("No account associated with this email address and password.");
         }
-
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
-            res.json("nonexist");
+            res.status(404).json("No account associated with this email address and password.");
         }
         else {
-            res.json("exists");
+            res.status(204).json("");
         }
     }
     catch (e) {
+        res.status(500).json("An unexpected error occured.");
         console.log(e);
-        res.json("nonexist");
     }
 })
 
@@ -59,7 +57,7 @@ app.post("/", async (req, res) => {
 
 app.post("/register", async (req, res) => {
     const { email, password, city, state, address, zipCode } = req.body;
-    
+
     const data = {
         email: email,
         password: password,
@@ -70,17 +68,28 @@ app.post("/register", async (req, res) => {
     }
     try {
         const user = await User.findOne({ email: email });
-        
+
         if (user) {
-            res.json("exists");
+            res.status(409).json("Account with this email address already exists.");
         }
         else {
             await User.create(data);
-            res.json("nonexist");
+            res.status(201).json("Successfully created user!");
         }
     }
     catch (e) {
-        res.json("nonexist")
+        if (e.name == "ValidationError") {
+            const errors = [];
+            for (const path in e.errors) {
+                const validationError = e.errors[path];
+                errors.push({ name: path, message: validationError.message });
+            }
+            res.status(422).json(errors);
+        }
+        else {
+            res.status(500).json("An unexpected error occured.");
+            console.log(e);
+        }
     }
 })
 
@@ -89,44 +98,51 @@ app.post("/order", async (req, res) => {
 
     try {
         const user = await User.findOne({ email: email });
-        
+
         user.pizzas.push({ toppings, crust, size, method, quantity });
-        
+
         const update = await User.findByIdAndUpdate({ _id: user._id }, { pizzas: [...user.pizzas] });
-        res.json("saved pizza");
+        res.status(201).json("Successfully ordered pizza!");
     }
-    catch (err) {
-        console.log(err);
+    catch (e) {
+        res.status(500).json("An unexpected error occured.");
+        console.log(e);
     }
 
 })
 
 app.put("/account", async (req, res) => {
     const { email, password, city, state, address, zipCode } = req.body;
-    
+
     try {
         const user = await User.findOne({ email: email });
-        
-        if (!user) {
-            res.json("nonexist");
-        }
-        else {
 
-            const update = await User.findByIdAndUpdate(
-                { _id: user._id },
-                {
-                    email: email,
-                    password: password ? await hashPassword(password) : user.password,
-                    city: city,
-                    state: state,
-                    address: address,
-                    zipCode: zipCode
-                });
-            res.json("exists");
-        }
+        const update = await User.findByIdAndUpdate(
+            { _id: user._id },
+            {
+                email: email,
+                password: password ? await hashPassword(password) : user.password,
+                city: city,
+                state: state,
+                address: address,
+                zipCode: zipCode
+            },
+            { runValidators: true });
+        res.status(204).json("");
     }
     catch (e) {
-        res.json("nonexist");
+        if (e.name == "ValidationError") {
+            const errors = [];
+            for (const path in e.errors) {
+                const validationError = e.errors[path];
+                errors.push({ name: path, message: validationError.message });
+            }
+            res.status(422).json(errors);
+        }
+        else {
+            res.status(500).json("An unexpected error occured.");
+            console.log(e);
+        }
     }
 })
 app.post("/delete", async (req, res) => {
@@ -134,10 +150,11 @@ app.post("/delete", async (req, res) => {
     try {
         const user = await User.findOne({ email: email });
         const deleteUser = await User.deleteOne(user);
-        res.json("user deleted");
+        res.status(204).json("Successfully deleted your account!");
     }
-    catch (err) {
-        console.log(err);
+    catch (e) {
+        res.status(500).json("An unexpected error occured.");
+        console.log(e);
     }
 })
 

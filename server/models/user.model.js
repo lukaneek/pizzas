@@ -5,49 +5,50 @@ const bcrypt = require("bcrypt");
 const UserSchema = new mongoose.Schema({
     email: {
         type: String,
-        required: [true, "must enter vaild email"]
+        required: [true, "Must enter vaild email."],
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
     password: {
         type: String,
-        required: [true, "must enter vaild email"]
+        required: [true, "Must enter vaild email."]
     },
     city: {
         type: String,
-        required: [true, "must enter a city"]
+        required: [true, "Must enter a city."]
     },
     state: {
         type: String,
-        required: [true, "must enter a state"]
+        required: [true, "Must enter a state."],
     },
     address: {
         type: String,
-        required: [true, "must enter an address"]
+        required: [true, "Must enter an address."]
     },
     zipCode: {
         type: String,
-        required: [true, "must enter a zip code"]
+        required: [true, "Must enter a zip code."]
     },
     pizzas: [{
         toppings: [{
             type: String,
-            required: [true, "pizza must have toppings"],
-            maxlength: [10, "can't have more than 10 toppings"]
+            required: [true, "Pizza must have toppings."],
+            maxlength: [10, "Can't have more than 10 toppings."]
         }],
         size: {
             type: String,
-            required: [true, "A movie's genre is required!!!"]
+            required: [true, "Must have a size."]
         },
         crust: {
             type: String,
-            required: [true, "must have a size"]
+            required: [true, "Must have a crust."]
         },
         quantity: {
             type: Number,
-            required: [true, "must have a quantity"]
+            required: [true, "Must have a quantity."]
         },
         method: {
             type: String,
-            required: [true, "must have delivery method"]
+            required: [true, "Must have delivery method."]
         },
         orderDate: {
             type: Date,

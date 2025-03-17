@@ -18,7 +18,7 @@ function Register(props) {
     function sumbit(e) {
         e.preventDefault();
 
-        if (password != confirmPassword) {
+        if (!password || !confirmPassword || (password != confirmPassword)) {
             alert("Passwords don't match!");
             return;
         }
@@ -26,20 +26,27 @@ function Register(props) {
         axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/register`, {
             email, password, city, state, address, zipCode
         })
-        .then(res => {
-            console.log(res.data);
-            if (res.data == "exists") {
-                alert("account already exists with this email");
-            }
-            else if (res.data == "nonexist") {
+            .then(res => {
+                console.log(res);
+                alert(res.data);
                 saveEmail(email);
                 navigate(`${import.meta.env.VITE_PATH}/home`);
-            }
-        })
-        .catch(e => {
-            alert("something went wrong");
-            console.log(e);
-        }) 
+            })
+            .catch(e => {
+                if (e.response && e.response.status == 409) {
+                    alert(e.response.data);
+                }
+                else if (e.response && e.response.status == 422){
+                    const messages = e.response.data.map((error, index) => {
+                        return error.message + "\n";
+                    })
+                    alert(messages);
+                }
+                else {
+                    alert("Something went wrong registering user.  Please try again later.");
+                }
+                console.log(e);
+            })
     }
 
     return (
@@ -56,45 +63,45 @@ function Register(props) {
 
                         <div data-mdb-input-init class="form-outline mb-4">
                             <input type="email" id="form2Example1" onChange={(e) => { setEmail(e.target.value) }} class="form-control" />
-                            <label class="form-label" for="form2Example1">Email address</label>
+                            <label class="form-label" for="form2Example1">Email address<span style={{ color: "red" }}> *</span></label>
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
                             <input type="password" id="form2Example2" onChange={(e) => { setPassword(e.target.value) }} class="form-control" />
-                            <label class="form-label" for="form2Example2">Password</label>
+                            <label class="form-label" for="form2Example2">Password<span style={{ color: "red" }}> *</span></label>
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
                             <input type="password" id="form2Example2" onChange={(e) => { setConfirmPassword(e.target.value) }} class="form-control" />
-                            <label class="form-label" for="form2Example2">Confirm Password</label>
+                            <label class="form-label" for="form2Example2">Confirm Password<span style={{ color: "red" }}> *</span></label>
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
                             <input type="text" id="form2Example2" onChange={(e) => { setAddress(e.target.value) }} class="form-control" />
-                            <label class="form-label" for="form2Example2">Address</label>
+                            <label class="form-label" for="form2Example2">Address<span style={{ color: "red" }}> *</span></label>
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
                             <input type="text" id="form2Example2" onChange={(e) => { setCity(e.target.value) }} class="form-control" />
-                            <label class="form-label" for="form2Example2">City</label>
+                            <label class="form-label" for="form2Example2">City<span style={{ color: "red" }}> *</span></label>
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
                             <input type="text" id="form2Example2" onChange={(e) => { setState(e.target.value) }} class="form-control" />
-                            <label class="form-label" for="form2Example2">State</label>
+                            <label class="form-label" for="form2Example2">State<span style={{ color: "red" }}> *</span></label>
                         </div>
 
                         <div data-mdb-input-init class="form-outline mb-4">
                             <input type="text" id="form2Example2" onChange={(e) => { setZipCode(e.target.value) }} class="form-control" />
-                            <label class="form-label" for="form2Example2">Zip Code</label>
+                            <label class="form-label" for="form2Example2">Zip Code<span style={{ color: "red" }}> *</span></label>
                         </div>
 
                         <div class=" d-flex justify-content-center align-items-center">
-                            <   button type="submit" onClick={sumbit} data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Regsiter</button>
+                            <   button type="submit" onClick={sumbit} data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Register</button>
                         </div>
                         <div class="text-center">
 
-                            <a href="/">Login</a>
+                            <a href="./">Login</a>
                         </div>
                     </form>
                 </div>
