@@ -18,7 +18,10 @@ function Login(props) {
 
     function sumbit(e) {
         e.preventDefault();
-
+        if (!email || !password) {
+            alert("Please enter an email and password!");
+            return;
+        }
         axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/`, {
             email, password
         })

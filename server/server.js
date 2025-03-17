@@ -38,7 +38,7 @@ app.post("/", async (req, res) => {
         const user = await User.findOne({ email: email });
         
         if (!user) {
-            res.json("nonexist");
+            return res.json("nonexist");
         }
 
         const isMatch = await user.comparePassword(password);
