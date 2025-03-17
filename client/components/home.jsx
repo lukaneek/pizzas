@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import Navbar from "./navbar";
 
 function Home(props) {
     const navigate = useNavigate();
@@ -16,37 +16,10 @@ function Home(props) {
         navigate(`${import.meta.env.VITE_PATH}/previousorders`);
     }
 
-    function logoutHandler(e) {
-        e.preventDefault();
-
-        navigate(`${import.meta.env.VITE_PATH}/`);
-    }
-
     return (
         <div>
             <div style={{ padding: 20 }}>
-                <nav class="navbar navbar-expand-lg navbar-light text-black">
-                    <a class="navbar-brand">Welcome {email}</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item active">
-                                <NavLink to={`${import.meta.env.VITE_PATH}/home`} class="nav-link">Home</NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink to={`${import.meta.env.VITE_PATH}/order`} class="nav-link">Orders</NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink to={`${import.meta.env.VITE_PATH}/account`} class="nav-link">Account</NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <button onClick={logoutHandler} class="nav-link">Log Out</button>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+                <Navbar email={email}/>
                 <div>
                     <div style={{ paddingTop: 40 }}>
                         <h1 class="d-flex justify-content-center">Options</h1>
