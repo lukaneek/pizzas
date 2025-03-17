@@ -1,8 +1,8 @@
-import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import AboutThisApp from "./aboutThisApp";
 
 
 function Login(props) {
@@ -22,19 +22,19 @@ function Login(props) {
         axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/`, {
             email, password
         })
-        .then(res => {
-            if (res.data == "exists") {
-                saveEmail(email);
-                navigate(`${import.meta.env.VITE_PATH}/home`);
-            }
-            else if (res.data == "nonexist") {
-                alert("incorrect information entered");
-            }
-        })
-        .catch(e => {
-            alert("wrong information entered");
-            console.log(e);
-        })
+            .then(res => {
+                if (res.data == "exists") {
+                    saveEmail(email);
+                    navigate(`${import.meta.env.VITE_PATH}/home`);
+                }
+                else if (res.data == "nonexist") {
+                    alert("incorrect information entered");
+                }
+            })
+            .catch(e => {
+                alert("wrong information entered");
+                console.log(e);
+            })
     }
 
 
@@ -78,7 +78,7 @@ function Login(props) {
                         </div>
                         <div class="text-center">
 
-                            <a href="#!">Forgot password?</a>
+                            <a href="#">Forgot password?</a>
                         </div>
                         <div class="text-center">
                             <p>Not a member? <a href="./register">Register</a></p>
@@ -86,6 +86,8 @@ function Login(props) {
                     </form>
                 </div>
             </div>
+            <p />
+            <AboutThisApp />
         </div>
     )
 }
