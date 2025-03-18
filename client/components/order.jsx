@@ -88,7 +88,7 @@ function Order(props) {
             .then(res => {
                 console.log(res);
                 alert(res.data);
-                navigate(`${import.meta.env.VITE_PATH}/account`)
+                navigate(`${import.meta.env.VITE_PATH}/previousorders`)
             })
             .catch(err => {
                 alert("Something went wrong registering user.  Please try again later.");
