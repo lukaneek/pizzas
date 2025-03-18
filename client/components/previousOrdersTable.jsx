@@ -5,7 +5,7 @@ import { useState } from "react";
 
 function PreviousOrdersTable(props) {
     const { addOrderButton } = props;
-    const { email } = props;
+    const { userId } = props;
 
     const [pizzas, setPizzas] = useState([]);
 
@@ -15,7 +15,7 @@ function PreviousOrdersTable(props) {
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_BASE_SERVER_URL}/user`, {
             params: {
-                email: email
+                userId: userId
             }
         })
             .then((res) => {

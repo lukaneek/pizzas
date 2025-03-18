@@ -7,6 +7,7 @@ import Navbar from "./navbar";
 
 function Order(props) {
     const { email } = props;
+    const { userId } = props;
     const navigate = useNavigate();
     const location = useLocation();
     const pizzaWithIdObject = location.state;
@@ -32,7 +33,7 @@ function Order(props) {
         if (pizzaWithIdObject) {
             axios.get(`${import.meta.env.VITE_BASE_SERVER_URL}/user`, {
                 params: {
-                    email: email
+                    userId: userId
                 }
             })
                 .then((res) => {
@@ -83,7 +84,7 @@ function Order(props) {
             size,
             method,
             quantity,
-            email
+            userId
         })
             .then(res => {
                 console.log(res);

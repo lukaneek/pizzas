@@ -9,7 +9,12 @@ import ProtectedRoutes from "../utils/protectedRoutes";
 import PreviousOrders from "../components/previousOrders";
 
 function App() {
+  const [userId, setUserId] = useState("");
   const [email, setEmail] = useState("");
+
+  const saveUserId = (id) => {
+    setUserId(id);
+  }
 
   const saveEmail = (email) => {
     setEmail(email);
@@ -18,13 +23,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={`${import.meta.env.VITE_PATH}/`} element={<Login saveEmail={saveEmail} />} />
+        <Route path={`${import.meta.env.VITE_PATH}/`} element={<Login saveEmail={saveEmail} saveUserId={saveUserId} />} />
         <Route path={`${import.meta.env.VITE_PATH}/register`} element={<Register/>} />
-        <Route element={<ProtectedRoutes email={email} />}>
-          <Route path={`${import.meta.env.VITE_PATH}/home`} element={<Home email={email}/> } />
-          <Route path={`${import.meta.env.VITE_PATH}/order`} element={<Order email={email}/>} />
-          <Route path={`${import.meta.env.VITE_PATH}/previousorders`} element={<PreviousOrders email={email}/>} />
-          <Route path={`${import.meta.env.VITE_PATH}/account`} element={<Account email={email}/>} />
+        <Route element={<ProtectedRoutes userId={userId} />}>
+          <Route path={`${import.meta.env.VITE_PATH}/home`} element={<Home email={email} userId={userId}/> } />
+          <Route path={`${import.meta.env.VITE_PATH}/order`} element={<Order email={email} userId={userId}/>} />
+          <Route path={`${import.meta.env.VITE_PATH}/previousorders`} element={<PreviousOrders email={email} userId={userId}/>} />
+          <Route path={`${import.meta.env.VITE_PATH}/account`} element={<Account email={email} userId={userId}/>} />
         </Route>
       </Routes>
     </BrowserRouter>

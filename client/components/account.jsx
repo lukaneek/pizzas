@@ -7,8 +7,9 @@ import Navbar from "./navbar";
 import PreviousOrdersTable from "./previousOrdersTable";
 
 function Account(props) {
-    const { email } = props;
+    const { userId, email } = props;
     const navigate = useNavigate();
+
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,7 +22,7 @@ function Account(props) {
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_BASE_SERVER_URL}/user`, {
             params: {
-                email: email
+                userId: userId
             }
         })
             .then((res) => {
@@ -40,7 +41,7 @@ function Account(props) {
         e.preventDefault();
         if (confirm("Are you sure you want to delete your account?")) {
             axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/delete`, {
-                email
+                userId
             })
                 .then((res) => {
                     console.log(res);
@@ -64,7 +65,7 @@ function Account(props) {
 
 
         axios.put(`${import.meta.env.VITE_BASE_SERVER_URL}/account`, {
-            email, password, city, state, address, zipCode
+            userId, password, city, state, address, zipCode
         })
             .then(res => {
                 console.log(res);
@@ -136,7 +137,7 @@ function Account(props) {
                         </form>
                     </div>
                 </div>
-                <PreviousOrdersTable email={email} addOrderButton={false} />
+                <PreviousOrdersTable userId={userId} addOrderButton={false} />
             </div>
         </div>
     )

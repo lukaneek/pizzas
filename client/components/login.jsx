@@ -7,20 +7,22 @@ import { useLocation } from "react-router-dom";
 
 function Login(props) {
     const { saveEmail } = props;
+    const { saveUserId } = props;
     const navigate = useNavigate();
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const verifyEmail = searchParams.get('email');
+    const verifyUser = searchParams.get('userId');
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     useEffect(() => {
         saveEmail("");
-        if (verifyEmail) {
+        saveUserId("");
+        if (verifyUser) {
             axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/verify`, {
-                email:verifyEmail
+                userId:verifyUser
             })
                 .then(res => {
                     console.log(res);
@@ -50,6 +52,7 @@ function Login(props) {
             .then(res => {
                 console.log(res);
                 saveEmail(email);
+                saveUserId(res.data.userId);
                 navigate(`${import.meta.env.VITE_PATH}/home`);
             })
             .catch(e => {

@@ -73,10 +73,10 @@ app.get("/", function (req, res) {
 });
 
 app.get("/user", async (req, res) => {
-    const { email } = req.query;
+    const { userId } = req.query;
 
     try {
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ _id: userId });
         res.json(user);
     }
     catch (e) {
@@ -100,7 +100,7 @@ app.post("/", async (req, res) => {
             return res.status(404).json("No account associated with this email address and password.");
         }
         else {
-            res.status(204).json("");
+            res.status(200).json({userId:user._id});
         }
     }
     catch (e) {
@@ -123,16 +123,17 @@ app.post("/register", async (req, res) => {
         zipCode: zipCode
     }
     try {
-        const user = await User.findOne({ email: email });
+        let user = await User.findOne({ email: email });
 
         if (user) {
             res.status(409).json("Account with this email address already exists.");
         }
         else {
             await User.create(data);
+            user = await User.findOne({ email: email });
             mailOptions.to = email;
             const temp = emailText.replaceAll("{{email}}", email);
-            mailOptions.html = temp.replaceAll("{{link}}", process.env.EMAIL_VERIFICATION_LINK + email);
+            mailOptions.html = temp.replaceAll("{{link}}", process.env.EMAIL_VERIFICATION_LINK + user._id);
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
                     console.log(error);
@@ -161,9 +162,9 @@ app.post("/register", async (req, res) => {
 })
 
 app.post("/verify", async (req, res) => {
-    const { email } = req.body;
+    const { userId } = req.body;
     try {
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ _id: userId });
 
         if (!user) {
             return res.status(404).json("Couldn't find user associated with this email address.  Please register again.");
@@ -180,10 +181,10 @@ app.post("/verify", async (req, res) => {
 })
 
 app.post("/order", async (req, res) => {
-    const { email, toppings, crust, size, method, quantity } = req.body;
+    const { userId, toppings, crust, size, method, quantity } = req.body;
 
     try {
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ _id: userId });
 
         user.pizzas.push({ toppings, crust, size, method, quantity });
 
@@ -198,15 +199,15 @@ app.post("/order", async (req, res) => {
 })
 
 app.put("/account", async (req, res) => {
-    const { email, password, city, state, address, zipCode } = req.body;
+    const { userId, password, city, state, address, zipCode } = req.body;
 
     try {
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ _id: userId });
 
         const update = await User.findByIdAndUpdate(
             { _id: user._id },
             {
-                email: email,
+                email: user.email,
                 password: password ? await hashPassword(password) : user.password,
                 city: city,
                 state: state,
@@ -232,9 +233,9 @@ app.put("/account", async (req, res) => {
     }
 })
 app.post("/delete", async (req, res) => {
-    const { email } = req.body;
+    const { userId } = req.body;
     try {
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ _id : userId });
         const deleteUser = await User.deleteOne(user);
         res.status(204).json("Successfully deleted your account!");
     }

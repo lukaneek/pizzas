@@ -28,8 +28,8 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Must enter a zip code."],
         cast: "Must enter a 5 digit zip code.",
-        min: [5, "Must enter a 5 digit zip code."],
-        max: [5, "Must enter a 5 digit zip code."]
+        minLength: [5, "Must enter a 5 digit zip code."],
+        maxLength: [5, "Must enter a 5 digit zip code."]
     },
     isVerified: {
         type: Boolean,
