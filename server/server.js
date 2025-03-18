@@ -20,7 +20,7 @@ var mailOptions = {
     '>\
     <div style='max-width: 600px; margin: auto; background-color: #fff'>\
     <div style='text-align: center; background-color: #333; padding: 14px'>\
-      <a style='text-decoration: none; outline: none' href='lukavujasin.xyz/pizzas/' target='_blank'>\
+      <a style='text-decoration: none; color: #fff; outline: none' href='https://lukavujasin.xyz/pizzas/' target='_blank'>\
       Luka's Pizzeria\
       </a>\
     </div>\
@@ -47,7 +47,7 @@ var mailOptions = {
     </p>\
     </div>\
     </div >"
-  }
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -131,13 +131,14 @@ app.post("/register", async (req, res) => {
             mailOptions.to = email;
             mailOptions.html = mailOptions.html.replaceAll("{{email}}", email);
             mailOptions.html = mailOptions.html.replaceAll("{{link}}", process.env.EMAIL_VERIFICATION_LINK + email);
-            transporter.sendMail(mailOptions, function(error, info){
+            transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
-                  console.log(error);
+                    console.log(error);
+                    return res.status(500).json("An unexpected error occured.");
                 } else {
-                  console.log('Email sent: ' + info.response);
+                    console.log('Email sent: ' + info.response);
                 }
-              });
+            });
             res.status(201).json("Successfully created user!");
         }
     }
@@ -160,18 +161,18 @@ app.post("/register", async (req, res) => {
 app.post("/verify", async (req, res) => {
     const { email } = req.body;
     console.log("verifying email " + email);
-    try{
+    try {
         const user = await User.findOne({ email: email });
 
         if (!user) {
             return res.status(404).json("Couldn't find user associated with this email address.  Please register again.");
-        } 
+        }
 
-        const update = await User.findByIdAndUpdate({ _id:user._id },{ isVerified:true });
+        const update = await User.findByIdAndUpdate({ _id: user._id }, { isVerified: true });
 
         res.status(200).json("Successfully verified.");
     }
-    catch(e) {
+    catch (e) {
         res.status(500).json("An unexpected error has occured.");
         console.log(e);
     }
