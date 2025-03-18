@@ -8,11 +8,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 
 var transporter = null;
-var mailOptions = {
-    from: process.env.EMAIL_LOGIN,
-    to: '',
-    subject: 'Registration Verification for Lukas Pizzeria',
-    html: "<div style='font- family: system-ui, sans - serif, Arial;\
+const emailText = "<div style='font- family: system-ui, sans - serif, Arial;\
     font - size: 14px;\
     color: #333;\
     padding: 20px 14px;\
@@ -46,7 +42,13 @@ var mailOptions = {
       You received this email because you are registering with Luka's Pizzeria.\
     </p>\
     </div>\
-    </div >"
+    </div >";
+
+var mailOptions = {
+    from: process.env.EMAIL_LOGIN,
+    to: '',
+    subject: 'Registration Verification for Lukas Pizzeria',
+    html: ""
 }
 
 app.use(express.json());
@@ -129,8 +131,8 @@ app.post("/register", async (req, res) => {
         else {
             await User.create(data);
             mailOptions.to = email;
-            mailOptions.html = mailOptions.html.replaceAll("{{email}}", email);
-            mailOptions.html = mailOptions.html.replaceAll("{{link}}", process.env.EMAIL_VERIFICATION_LINK + email);
+            const temp = emailText.replaceAll("{{email}}", email);
+            mailOptions.html = temp.replaceAll("{{link}}", process.env.EMAIL_VERIFICATION_LINK + email);
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
                     console.log(error);
@@ -160,7 +162,6 @@ app.post("/register", async (req, res) => {
 
 app.post("/verify", async (req, res) => {
     const { email } = req.body;
-    console.log("verifying email " + email);
     try {
         const user = await User.findOne({ email: email });
 
