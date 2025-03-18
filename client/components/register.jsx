@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Register(props) {
-    const { saveEmail } = props;
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -28,9 +27,8 @@ function Register(props) {
         })
             .then(res => {
                 console.log(res);
-                alert(res.data);
-                saveEmail(email);
-                navigate(`${import.meta.env.VITE_PATH}/home`);
+                alert(res.data + " Sending a verification email to: " + email + ". You must verify your email before placing an order.");
+                navigate(`${import.meta.env.VITE_PATH}/`);
             })
             .catch(e => {
                 if (e.response && e.response.status == 409) {
@@ -57,7 +55,7 @@ function Register(props) {
                 </nav>
             </div>
             <div className="login template d-flex justify-content-center align-items-center 100-w 100-vh bg primary" >
-                <div style={{ paddingTop: 200 }}>
+                <div style={{ paddingTop: 100 }}>
                     <h1 class="text-center">Register</h1>
                     <form action="POST">
 

@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "Must enter a zip code."]
     },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
     pizzas: [{
         toppings: [{
             type: String,

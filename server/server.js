@@ -1,9 +1,53 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 const app = express();
 require("./config/mongoose.config.js");
 const User = require("./models/user.model.js");
 const bcrypt = require("bcrypt");
+const nodemailer = require('nodemailer');
+
+var transporter = null;
+var mailOptions = {
+    from: process.env.EMAIL_LOGIN,
+    to: '',
+    subject: 'Registration Verification for Lukas Pizzeria',
+    html: "<div style='font- family: system-ui, sans - serif, Arial;\
+    font - size: 14px;\
+    color: #333;\
+    padding: 20px 14px;\
+    background - color: #f5f5f5;\
+    '>\
+    <div style='max-width: 600px; margin: auto; background-color: #fff'>\
+    <div style='text-align: center; background-color: #333; padding: 14px'>\
+      <a style='text-decoration: none; outline: none' href='lukavujasin.xyz/pizzas/' target='_blank'>\
+      Luka's Pizzeria\
+      </a>\
+    </div>\
+    <div style='padding: 14px'>\
+      <h1 style='font-size: 22px; margin-bottom: 26px'>Registration Verification</h1>\
+      <p>\
+        Please press the link to verify your account.\
+      </p>\
+      <p>\
+        <a href='{{link}}'>{{link}}</a>\
+      </p>\
+      <p>This link will expire in one hour.</p>\
+      <p>\
+        If you didn't request this registration, please ignore this email or let us know\
+        immediately.\
+      </p>\
+      <p>Best regards,<br />Luka's Pizzeria Team</p>\
+    </div>\
+  </div>\
+  <div style='max-width: 600px; margin: auto'>\
+    <p style='color: #999'>\
+      The email was sent to {{email}}<br />\
+      You received this email because you are registering with Luka's Pizzeria.\
+    </p>\
+    </div>\
+    </div >"
+  }
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -13,6 +57,13 @@ app.use(cors({
 
 app.listen(3000, function () {
     console.log('Listening on port 3000');
+    transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_LOGIN,
+            pass: process.env.EMAIL_PASSWORD
+        }
+    });
 });
 
 app.get("/", function (req, res) {
@@ -39,9 +90,12 @@ app.post("/", async (req, res) => {
         if (!user) {
             return res.status(404).json("No account associated with this email address and password.");
         }
+        if (!user.isVerified) {
+            return res.status(401).json("This account has not been verified yet.  Please check your email for a verification link.");
+        }
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
-            res.status(404).json("No account associated with this email address and password.");
+            return res.status(404).json("No account associated with this email address and password.");
         }
         else {
             res.status(204).json("");
@@ -74,6 +128,16 @@ app.post("/register", async (req, res) => {
         }
         else {
             await User.create(data);
+            mailOptions.to = email;
+            mailOptions.html = mailOptions.html.replaceAll("{{email}}", email);
+            mailOptions.html = mailOptions.html.replaceAll("{{link}}", process.env.EMAIL_VERIFICATION_LINK + email);
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                }
+              });
             res.status(201).json("Successfully created user!");
         }
     }
@@ -90,6 +154,26 @@ app.post("/register", async (req, res) => {
             res.status(500).json("An unexpected error occured.");
             console.log(e);
         }
+    }
+})
+
+app.post("/verify", async (req, res) => {
+    const { email } = req.body;
+    console.log("verifying email " + email);
+    try{
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            return res.status(404).json("Couldn't find user associated with this email address.  Please register again.");
+        } 
+
+        const update = await User.findByIdAndUpdate({ _id:user._id },{ isVerified:true });
+
+        res.status(200).json("Successfully verified.");
+    }
+    catch(e) {
+        res.status(500).json("An unexpected error has occured.");
+        console.log(e);
     }
 })
 

@@ -3,17 +3,39 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AboutThisApp from "./aboutThisApp";
-
+import { useLocation } from "react-router-dom";
 
 function Login(props) {
     const { saveEmail } = props;
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const verifyEmail = searchParams.get('email');
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     useEffect(() => {
         saveEmail("");
+        if (verifyEmail) {
+            axios.post(`${import.meta.env.VITE_BASE_SERVER_URL}/verify`, {
+                email:verifyEmail
+            })
+                .then(res => {
+                    console.log(res);
+                    alert(res.data + " Please log in.");
+                })
+                .catch(e => {
+                    if (e.response && e.response.status == 404) {
+                        alert(e.response.data);
+                    }
+                    else {
+                        alert("Something went wrong logging in a user.  Please try again later.");
+                    }
+                    console.log(e);
+                })
+        }
     }, [])
 
     function sumbit(e) {
@@ -31,7 +53,10 @@ function Login(props) {
                 navigate(`${import.meta.env.VITE_PATH}/home`);
             })
             .catch(e => {
-                if (e.response && e.response.status == 404) {
+                if (e.response && e.response.status == 401) {
+                    alert(e.response.data);
+                }
+                else if (e.response && e.response.status == 404) {
                     alert(e.response.data);
                 }
                 else {
@@ -90,8 +115,9 @@ function Login(props) {
                     </form>
                 </div>
             </div>
-            <p />
-            <AboutThisApp />
+            <div style={{ paddingTop: 150, paddingLeft: 30, width: 1000 }}>
+                <AboutThisApp />
+            </div>
         </div>
     )
 }
