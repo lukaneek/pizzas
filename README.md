@@ -1,6 +1,6 @@
 This full stack MERN project is a pizza shop that uses:
 
-  bycrpt, cors, express, mongoose, bootstrap, axios, and react.
+  bycrpt, cors, express, mongoose, bootstrap, axios, nodemailer and react.
 
   -------------------------------------------------------------------------
 
@@ -19,6 +19,8 @@ This full stack MERN project is a pizza shop that uses:
   Password hashing and confirm password using bcrypt.
 	
   Used react library to build out the UI.  
+
+  Using Nodemailer for registration email. 
 	
   All data retrieved from the user is validated before entering MongoDB.
 
