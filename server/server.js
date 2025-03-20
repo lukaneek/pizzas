@@ -80,7 +80,8 @@ app.get("/user", async (req, res) => {
         res.json(user);
     }
     catch (e) {
-        res.json("nonexist");
+        res.status(500).json("An unexpected error occured.");
+        console.log(e);
     }
 })
 
