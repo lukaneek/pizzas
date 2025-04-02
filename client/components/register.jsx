@@ -57,7 +57,7 @@ function Register(props) {
             <div className="login template d-flex justify-content-center align-items-center 100-w 100-vh bg primary" >
                 <div style={{ paddingTop: 100 }}>
                     <h1 class="text-center">Register</h1>
-                    <form action="POST">
+                    <form>
 
                         <div data-mdb-input-init class="form-outline mb-4">
                             <input type="email" id="form2Example1" onChange={(e) => { setEmail(e.target.value) }} class="form-control" />

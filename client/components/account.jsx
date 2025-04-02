@@ -94,7 +94,7 @@ function Account(props) {
                 <div className="login template d-flex justify-content-center align-items-center 100-w 100-vh bg primary">
                     <div style={{ paddingTop: 50 }}>
                         <h1>Update Account Info</h1>
-                        <form class action="PUT">
+                        <form>
                             <div data-mdb-input-init class="form-outline mb-2">
                                 <input type="password" placeholder="New Password:" id="form2Example2" onChange={(e) => { setPassword(e.target.value) }} class="form-control" />
                                 <label class="form-label" for="form2Example2">Change Password</label>

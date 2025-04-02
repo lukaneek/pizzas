@@ -109,8 +109,6 @@ app.post("/", async (req, res) => {
     }
 })
 
-
-
 app.post("/register", async (req, res) => {
     const { email, password, city, state, address, zipCode } = req.body;
 
